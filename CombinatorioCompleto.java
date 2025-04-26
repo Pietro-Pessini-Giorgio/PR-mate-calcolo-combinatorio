@@ -1,4 +1,4 @@
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class CombinatorioCompleto {
 
@@ -36,7 +36,8 @@ public class CombinatorioCompleto {
         return combinazioni(n + k - 1, k);
     }
 
-    // Main con input da tastiera
+    // Main con input da tastiera (test funzioni)
+    /*
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -83,4 +84,5 @@ public class CombinatorioCompleto {
         System.out.println("Risultato: " + risultato);
         scanner.close();
     }
+    */
 }
