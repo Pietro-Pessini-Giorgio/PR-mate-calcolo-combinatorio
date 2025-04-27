@@ -278,7 +278,7 @@ public class Mainframe extends JFrame{
                             fnl = "Permutazioni semplici("+val1+")=" + res + "\n";
                             txta.append(fnl);
                         }else{
-                            //JOptionPane.showMessageDialog(null, "Se i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi sono diversi!", "Attenzione!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Se i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi sono diversi!", "Attenzione!", JOptionPane.ERROR_MESSAGE);
                             txta.append("\nAttenzione:\nSe i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi\nsono diversi!");                           
                         }
                     }else{
