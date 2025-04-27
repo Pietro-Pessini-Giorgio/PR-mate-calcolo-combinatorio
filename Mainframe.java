@@ -262,12 +262,12 @@ public class Mainframe extends JFrame{
                 if(ch1.isSelected()){
                     if(ch3.isSelected()){
                         res = (int) CombinatorioCompleto.combinazioniConRipetizione(val1, val2);
-                        fnl = "Combinazioni con ripetizione("+val1+";"+val2+")" + res + "\n";
+                        fnl = "Combinazioni con ripetizione("+val1+";"+val2+")=" + res + "\n";
                         txta.append(fnl);
                     }
                     if(ch4.isSelected()){
                         res = (int) CombinatorioCompleto.combinazioni(val1, val2);
-                        fnl = "Combinazioni semplici("+val1+";"+val2+")" + res + "\n";
+                        fnl = "Combinazioni semplici("+val1+";"+val2+")=" + res + "\n";
                         txta.append(fnl);
                     }
                 }
@@ -275,7 +275,7 @@ public class Mainframe extends JFrame{
                     if(val1 == val2){
                         if(ch3.isSelected()){
                             res = (int) CombinatorioCompleto.permutazioni(val1);
-                            fnl = "Permutazioni semplici("+val1+")" + res + "\n";
+                            fnl = "Permutazioni semplici("+val1+")=" + res + "\n";
                             txta.append(fnl);
                         }else{
                             //JOptionPane.showMessageDialog(null, "Se i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi sono diversi!", "Attenzione!", JOptionPane.ERROR_MESSAGE);
@@ -284,12 +284,12 @@ public class Mainframe extends JFrame{
                     }else{
                         if(ch3.isSelected()){
                             res = (int) CombinatorioCompleto.disposizioniConRipetizione(val1, val2);
-                            fnl = "Disposizioni con ripetizione("+val1+";"+val2+")" + res + "\n";
+                            fnl = "Disposizioni con ripetizione("+val1+";"+val2+")=" + res + "\n";
                             txta.append(fnl);
                         }
                         if(ch4.isSelected()){
                             res = (int) CombinatorioCompleto.disposizioni(val1, val2);
-                            fnl = "Disposizioni semplici("+val1+";"+val2+")" + res + "\n";
+                            fnl = "Disposizioni semplici("+val1+";"+val2+")=" + res + "\n";
                             txta.append(fnl);
                         }
                     }
@@ -299,7 +299,7 @@ public class Mainframe extends JFrame{
         });
 
 
-        setSize(740, 640);
+        setSize(740, 740);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
