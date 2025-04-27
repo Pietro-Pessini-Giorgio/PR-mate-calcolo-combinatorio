@@ -3,7 +3,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 
@@ -20,6 +19,13 @@ public class Mainframe extends JFrame{
     JMenu m;
 
     public Mainframe(Font f,Font f2,Font f3){
+
+        //to set the frame in the middle of the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - 740) / 2;
+        int y = (screenSize.height - 640) / 2;
+        setLocation(x, y);
+
         List<Image> icons = new ArrayList<>();
         icons.add(Toolkit.getDefaultToolkit().getImage("image\\calculator-icon-free-vector16.png"));
         icons.add(Toolkit.getDefaultToolkit().getImage("image\\calculator-icon-free-vector32.png"));
@@ -66,8 +72,7 @@ public class Mainframe extends JFrame{
         mpan1.add(txt1);
         mpan.add(mpan1);
 
-        //mpan2 is used to choose the operation (frasco le permutazioni si calcolano se n==k e se l'ordine conta è la
-        // scelta "gli elementi sono tutti diversi?:" = si)
+        //mpan2 is used to choose the operation
         mpan2= new JPanel();
         mpan2.setLayout(new GridLayout(3, 2, 5, 5));
         lab3= new JLabel("l'ordine è importante?:");
@@ -188,8 +193,8 @@ public class Mainframe extends JFrame{
                 new Painter<JComponent>() {
                     @Override
                     public void paint(Graphics2D g, JComponent c, int w, int h) {
-                        g.setColor(Color.WHITE);
-                        g.fillOval(w/2 - 4, h/2 - 4, 8, 8); // White dot
+                        g.setColor(Color.GREEN);
+                        g.fillOval(w/2 - 4, h/2 - 4, 8, 8); // GREEN dot
                     }
                 }
             );
@@ -208,13 +213,10 @@ public class Mainframe extends JFrame{
         mpan2.add(ch4);
         mpan.add(mpan2);
 
-        //mpan3 show the last operation (frasco quando sviluppi la tua parte il risultato dovrebbe essere mostrato nella textarea e cosi
-        //"nomeOperazione(valoreN,valoreK)=risultato" percui per esempio "disposizioniSemplici(5,4)=120","permutazionesemplice(4)=24")
-        //p.s. se n e k sono float lunghi tipo 1,756456453454354353453453 mostra solo le prime tre cifre decimali percui il numero di prima
-        //diventerebbe cosi 1,756 
+        //mpan3 show the last operation
         mpan3 = new JPanel();
         mpan3.setLayout(new FlowLayout());
-        txta = new JTextArea("last operation:",10, 35);
+        txta = new JTextArea("Last operation:\n",10, 50);
         txta.setEditable(false);
         txta.setFont(f3);
         txta.setForeground(Color.GREEN);
@@ -228,7 +230,7 @@ public class Mainframe extends JFrame{
         bpan= new JPanel();
         bpan.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         b = new JButton("calcola");
-        b.setForeground(Color.GREEN);
+        b.setForeground(Color.BLACK);
         b.setFont(f3);
         bpan.add(b);
         add(tpan, BorderLayout.NORTH);
@@ -246,6 +248,57 @@ public class Mainframe extends JFrame{
         m.add(b2);
         mn.add(m);
         setJMenuBar(mn);
+
+
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                int val1 = Integer.parseInt(txt.getText());
+                int val2 = Integer.parseInt(txt1.getText());
+                int res;
+                String fnl = ""; 
+                
+                if(ch1.isSelected()){
+                    if(ch3.isSelected()){
+                        res = (int) CombinatorioCompleto.combinazioniConRipetizione(val1, val2);
+                        fnl = "Combinazioni con ripetizione("+val1+";"+val2+")" + res + "\n";
+                        txta.append(fnl);
+                    }
+                    if(ch4.isSelected()){
+                        res = (int) CombinatorioCompleto.combinazioni(val1, val2);
+                        fnl = "Combinazioni semplici("+val1+";"+val2+")" + res + "\n";
+                        txta.append(fnl);
+                    }
+                }
+                if(ch2.isSelected()){
+                    if(val1 == val2){
+                        if(ch3.isSelected()){
+                            res = (int) CombinatorioCompleto.permutazioni(val1);
+                            fnl = "Permutazioni semplici("+val1+")" + res + "\n";
+                            txta.append(fnl);
+                        }else{
+                            //JOptionPane.showMessageDialog(null, "Se i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi sono diversi!", "Attenzione!", JOptionPane.ERROR_MESSAGE);
+                            txta.append("\nAttenzione:\nSe i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi\nsono diversi!");                           
+                        }
+                    }else{
+                        if(ch3.isSelected()){
+                            res = (int) CombinatorioCompleto.disposizioniConRipetizione(val1, val2);
+                            fnl = "Disposizioni con ripetizione("+val1+";"+val2+")" + res + "\n";
+                            txta.append(fnl);
+                        }
+                        if(ch4.isSelected()){
+                            res = (int) CombinatorioCompleto.disposizioni(val1, val2);
+                            fnl = "Disposizioni semplici("+val1+";"+val2+")" + res + "\n";
+                            txta.append(fnl);
+                        }
+                    }
+                    
+                }
+            }
+        });
+
+
         setSize(740, 640);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
