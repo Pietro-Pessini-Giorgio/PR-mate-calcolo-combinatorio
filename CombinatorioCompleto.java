@@ -33,4 +33,16 @@ public class CombinatorioCompleto {
     public static long combinazioniConRipetizione(int n, int k) {
         return combinazioni(n + k - 1, k);
     }
+
+    // Permutazioni con ripetizione: P'(n) = n! / (p1! * p2! * ... * pk!)
+     public static long permutazioniConRipetizione(int[] ricorrenze) {
+        int somma = 0;
+        long denominatore = 1;
+
+        for(int ricor:ricorrenze) {
+            somma+=ricor;
+            denominatore*=fattoriale(ricor);
+        }
+        return fattoriale(somma) / denominatore;
+    }
 }
