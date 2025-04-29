@@ -1,7 +1,15 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import java.awt.*;
@@ -9,9 +17,9 @@ import java.awt.*;
 public class Mainframe extends JFrame{
     JPanel  tpan,mpan,mpan1,mpan2,mpan3,mpan3a,mpan3b,bpan;
     JTextField txt,txt1;
-    JButton b,b2;
-    JLabel lab,lab1,lab2,lab3,lab3b,lab4,lab4b,labn;
-    JRadioButton ch1,ch2,ch3,ch4,opt1,opt2,opt3;
+    JButton b,b2,b3;
+    JLabel lab,lab1,lab2,lab3,lab3b,lab4,lab4b,labn,labnull;
+    JRadioButton ch1,ch2,ch3,ch4,opt2,opt3;
     ButtonGroup chGroup1 = new ButtonGroup();
     ButtonGroup chGroup2 = new ButtonGroup();
     ButtonGroup chGroup3 = new ButtonGroup();
@@ -21,6 +29,7 @@ public class Mainframe extends JFrame{
 
     public Mainframe(Font f,Font f2,Font f3){
         Instruction ins=new Instruction(f, f2, f3);
+        Ragruop rag = new Ragruop(f, f2, f3);
         //to set the frame in the middle of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - 740) / 2;
@@ -35,6 +44,21 @@ public class Mainframe extends JFrame{
         setTitle("PR-mate-calcolo-combinatorio-(Calcolatrice-calcolo-combinatorio)");
         setLayout(new BorderLayout());
         getContentPane().setBackground(Color.BLACK);
+
+        try {
+            File musicPath = new File("music\\War-Without-Reason-_mp3cut.net_.wav");
+            if(musicPath.exists()){ 
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }else{
+                System.out.println("Couldn't find Music file");
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
 
         //tpan is used for title
         tpan = new JPanel();
@@ -209,30 +233,7 @@ public class Mainframe extends JFrame{
         labn=new JLabel("n=k:");
         labn.setFont(f2);
         labn.setForeground(Color.GREEN);
-        opt1= new JRadioButton("non importa"){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                
-                if (isSelected()) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(Color.GREEN); // Set your desired color here
-                    
-                    // Calculate position for the dot
-                    int dotDiameter = getHeight() / 5;
-                    int x = getHeight() / 7;
-                    int y = (getHeight() - dotDiameter) / 2;
-                    
-                    g2.fillOval(x, y, dotDiameter, dotDiameter);
-                    
-                    g2.dispose();
-                }
-            }
-        };
-        opt1.setFont(f2);
-        opt1.setForeground(Color.GREEN);
-        opt1.setBackground(Color.BLACK);
+        labnull=new JLabel("");
         opt2= new JRadioButton("si"){
             @Override
             protected void paintComponent(Graphics g) {
@@ -281,7 +282,6 @@ public class Mainframe extends JFrame{
         opt3.setFont(f2);
         opt3.setForeground(Color.GREEN);
         opt3.setBackground(Color.BLACK);
-        chGroup3.add(opt1);
         chGroup3.add(opt2);
         chGroup3.add(opt3);
         mpan2.add(lab3);
@@ -291,7 +291,7 @@ public class Mainframe extends JFrame{
         mpan2.add(ch2);
         mpan2.add(ch4);
         mpan2.add(labn);
-        mpan2.add(opt1);
+        mpan2.add(labnull);
         mpan2.add(opt2);
         mpan2.add(opt3);
         mpan.add(mpan2);
@@ -334,7 +334,16 @@ public class Mainframe extends JFrame{
                 ins.setVisible(true);
             }
         });
+        b3=new JButton("raggruppamento");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rag.setVisible(true);
+            }
+        });
         m.add(b2);
+        m.addSeparator();
+        m.add(b3);
         mn.add(m);
         setJMenuBar(mn);
 
@@ -344,39 +353,55 @@ public class Mainframe extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 
                 int val1 = Integer.parseInt(txt.getText());
-                int val2 = Integer.parseInt(txt1.getText());
                 int res;
                 String fnl = ""; 
                 
                 if(ch1.isSelected()){
                     if(ch3.isSelected()){
+                        int val2 = Integer.parseInt(txt1.getText());
                         res = (int) CombinatorioCompleto.combinazioniConRipetizione(val1, val2);
                         fnl = "Combinazioni con ripetizione("+val1+";"+val2+")=" + res + "\n";
                         txta.append(fnl);
                     }
                     if(ch4.isSelected()){
+                        int val2 = Integer.parseInt(txt1.getText());
                         res = (int) CombinatorioCompleto.combinazioni(val1, val2);
                         fnl = "Combinazioni semplici("+val1+";"+val2+")=" + res + "\n";
                         txta.append(fnl);
                     }
                 }
                 if(ch2.isSelected()){
-                    if(val1 == val2){
-                        if(ch3.isSelected()){
-                            res = (int) CombinatorioCompleto.permutazioni(val1);
-                            fnl = "Permutazioni semplici("+val1+")=" + res + "\n";
-                            txta.append(fnl);
+                    if(opt2.isSelected()){
+                        if(ch4.isSelected()){
+                            int val2 = Integer.parseInt(txt1.getText());
+                            if (val1==val2) {
+                                res = (int) CombinatorioCompleto.permutazioni(val1);
+                                fnl = "Permutazioni semplici("+val1+")=" + res + "\n";
+                                txta.append(fnl);
+                            }else{
+                                fnl = "per le permutazione i valori di n e k devono \nessere uguali \n";
+                                txta.append(fnl);
+                            }
                         }else{
-                            JOptionPane.showMessageDialog(null, "Se i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi sono diversi!", "Attenzione!", JOptionPane.ERROR_MESSAGE);
-                            txta.append("\nAttenzione:\nSe i due numeri sono identici seleziona la\ncasella NO alla domanda se gli elementi\nsono diversi!");                           
+                            String val2 = txt1.getText();
+                            StringTokenizer st=new StringTokenizer(val2, ";");
+                            ArrayList<Integer> in = new ArrayList<Integer>();
+                            while (st.hasMoreTokens()) {
+                                in.add(Integer.parseInt(st.nextToken()));
+                            }
+                            res= (int) CombinatorioCompleto.permutazioniConRipetizione(val1, in);
+                            fnl = "permutazioni con ripetizione("+val1+";["+val2+"])=" + res + "\n";  
+                            txta.append(fnl);          
                         }
                     }else{
                         if(ch3.isSelected()){
+                            int val2 = Integer.parseInt(txt1.getText());
                             res = (int) CombinatorioCompleto.disposizioniConRipetizione(val1, val2);
                             fnl = "Disposizioni con ripetizione("+val1+";"+val2+")=" + res + "\n";
                             txta.append(fnl);
                         }
                         if(ch4.isSelected()){
+                            int val2 = Integer.parseInt(txt1.getText());
                             res = (int) CombinatorioCompleto.disposizioni(val1, val2);
                             fnl = "Disposizioni semplici("+val1+";"+val2+")=" + res + "\n";
                             txta.append(fnl);
