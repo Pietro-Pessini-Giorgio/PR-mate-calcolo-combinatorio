@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class CombinatorioCompleto {
 
     // Fattoriale
@@ -35,14 +37,12 @@ public class CombinatorioCompleto {
     }
 
     // Permutazioni con ripetizione: P'(n) = n! / (p1! * p2! * ... * pk!)
-     public static long permutazioniConRipetizione(int[] ricorrenze) {
-        int somma = 0;
+     public static long permutazioniConRipetizione(int n,ArrayList<Integer> ricorrenze) {
         long denominatore = 1;
 
         for(int ricor:ricorrenze) {
-            somma+=ricor;
             denominatore*=fattoriale(ricor);
         }
-        return fattoriale(somma) / denominatore;
+        return fattoriale(n) / denominatore;
     }
 }

@@ -10,16 +10,17 @@ public class Mainframe extends JFrame{
     JPanel  tpan,mpan,mpan1,mpan2,mpan3,mpan3a,mpan3b,bpan;
     JTextField txt,txt1;
     JButton b,b2;
-    JLabel lab,lab1,lab2,lab3,lab3b,lab4,lab4b;
+    JLabel lab,lab1,lab2,lab3,lab3b,lab4,lab4b,labn;
     JRadioButton ch1,ch2,ch3,ch4,opt1,opt2,opt3;
     ButtonGroup chGroup1 = new ButtonGroup();
     ButtonGroup chGroup2 = new ButtonGroup();
+    ButtonGroup chGroup3 = new ButtonGroup();
     JTextArea txta;
     JMenuBar mn;
     JMenu m;
 
     public Mainframe(Font f,Font f2,Font f3){
-
+        Instruction ins=new Instruction(f, f2, f3);
         //to set the frame in the middle of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - 740) / 2;
@@ -74,13 +75,37 @@ public class Mainframe extends JFrame{
 
         //mpan2 is used to choose the operation
         mpan2= new JPanel();
-        mpan2.setLayout(new GridLayout(3, 2, 5, 5));
+        mpan2.setLayout(new GridLayout(5, 2, 5, 5));
         lab3= new JLabel("l'ordine è importante?:");
         lab3.setFont(f2);
         lab3.setForeground(Color.GREEN);
         lab3b = new JLabel("gli elementi sono tutti diversi?:");
         lab3b.setFont(f2);
         lab3b.setForeground(Color.GREEN);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.put("RadioButton.background", Color.BLACK);
+            UIManager.put("RadioButton.foreground", Color.GREEN);
+            UIManager.put("RadioButton.focus", Color.BLACK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            
+            // Customize Nimbus colors
+            UIManager.put("RadioButton[Focused+Pressed+Selected].iconPainter", 
+                new Painter<JComponent>() {
+                    @Override
+                    public void paint(Graphics2D g, JComponent c, int w, int h) {
+                        g.setColor(Color.GREEN);
+                        g.fillOval(w/2 - 4, h/2 - 4, 8, 8); // GREEN dot
+                    }
+                }
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ch1 = new JRadioButton("no"){
             @Override
             protected void paintComponent(Graphics g) {
@@ -177,40 +202,98 @@ public class Mainframe extends JFrame{
         ch4.setFont(f2);
         ch4.setForeground(Color.GREEN);
         ch4.setBackground(Color.BLACK);
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            UIManager.put("RadioButton.background", Color.BLACK);
-            UIManager.put("RadioButton.foreground", Color.GREEN);
-            UIManager.put("RadioButton.focus", Color.BLACK);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            
-            // Customize Nimbus colors
-            UIManager.put("RadioButton[Focused+Pressed+Selected].iconPainter", 
-                new Painter<JComponent>() {
-                    @Override
-                    public void paint(Graphics2D g, JComponent c, int w, int h) {
-                        g.setColor(Color.GREEN);
-                        g.fillOval(w/2 - 4, h/2 - 4, 8, 8); // GREEN dot
-                    }
-                }
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         chGroup1.add(ch1);
         chGroup2.add(ch3);
         chGroup1.add(ch2);
         chGroup2.add(ch4);
+        labn=new JLabel("n=k:");
+        labn.setFont(f2);
+        labn.setForeground(Color.GREEN);
+        opt1= new JRadioButton("non importa"){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                
+                if (isSelected()) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setColor(Color.GREEN); // Set your desired color here
+                    
+                    // Calculate position for the dot
+                    int dotDiameter = getHeight() / 5;
+                    int x = getHeight() / 7;
+                    int y = (getHeight() - dotDiameter) / 2;
+                    
+                    g2.fillOval(x, y, dotDiameter, dotDiameter);
+                    
+                    g2.dispose();
+                }
+            }
+        };
+        opt1.setFont(f2);
+        opt1.setForeground(Color.GREEN);
+        opt1.setBackground(Color.BLACK);
+        opt2= new JRadioButton("si"){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                
+                if (isSelected()) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setColor(Color.GREEN); // Set your desired color here
+                    
+                    // Calculate position for the dot
+                    int dotDiameter = getHeight() / 5;
+                    int x = getHeight() / 7;
+                    int y = (getHeight() - dotDiameter) / 2;
+                    
+                    g2.fillOval(x, y, dotDiameter, dotDiameter);
+                    
+                    g2.dispose();
+                }
+            }
+        };
+        opt2.setFont(f2);
+        opt2.setForeground(Color.GREEN);
+        opt2.setBackground(Color.BLACK);
+        opt3= new JRadioButton("no"){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                
+                if (isSelected()) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setColor(Color.GREEN); // Set your desired color here
+                    
+                    // Calculate position for the dot
+                    int dotDiameter = getHeight() / 5;
+                    int x = getHeight() / 7;
+                    int y = (getHeight() - dotDiameter) / 2;
+                    
+                    g2.fillOval(x, y, dotDiameter, dotDiameter);
+                    
+                    g2.dispose();
+                }
+            }
+        };
+        opt3.setFont(f2);
+        opt3.setForeground(Color.GREEN);
+        opt3.setBackground(Color.BLACK);
+        chGroup3.add(opt1);
+        chGroup3.add(opt2);
+        chGroup3.add(opt3);
         mpan2.add(lab3);
         mpan2.add(lab3b);
         mpan2.add(ch1);
         mpan2.add(ch3);
         mpan2.add(ch2);
         mpan2.add(ch4);
+        mpan2.add(labn);
+        mpan2.add(opt1);
+        mpan2.add(opt2);
+        mpan2.add(opt3);
         mpan.add(mpan2);
 
         //mpan3 show the last operation
@@ -245,6 +328,12 @@ public class Mainframe extends JFrame{
         mn=new JMenuBar();
         m=new JMenu("Menu");
         b2=new JButton("instruction");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ins.setVisible(true);
+            }
+        });
         m.add(b2);
         mn.add(m);
         setJMenuBar(mn);
